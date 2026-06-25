@@ -20,8 +20,7 @@ RUN uv sync --frozen --no-dev
 # Copy the rest of the application code
 COPY . .
 
-# Create a non-root user for security (best practice)
-RUN addgroup --system appgroup && adduser --system --group appuser
+RUN addgroup --system appgroup && adduser --system --group --home /app appuser
 
 # Ensure the new user owns the application files for write permissions
 RUN chown -R appuser:appgroup /app
