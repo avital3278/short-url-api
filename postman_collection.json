@@ -1,0 +1,122 @@
+{
+  "info": {
+    "name": "Short URL API",
+    "description": "Collection for the Short URL API challenge. Includes Guest & Authenticated flows.",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "variable": [
+    {
+      "key": "baseUrl",
+      "value": "http://localhost:8000",
+      "type": "string"
+    },
+    {
+      "key": "token",
+      "value": "YOUR_JWT_TOKEN_HERE",
+      "type": "string"
+    }
+  ],
+  "item": [
+    {
+      "name": "1. Health Check",
+      "request": {
+        "method": "GET",
+        "url": "{{baseUrl}}/health"
+      }
+    },
+    {
+      "name": "2. Register",
+      "request": {
+        "method": "POST",
+        "header": [
+          { "key": "Content-Type", "value": "application/json" }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"username\": \"testuser\",\n  \"password\": \"password123\"\n}"
+        },
+        "url": "{{baseUrl}}/auth/register"
+      }
+    },
+    {
+      "name": "3. Login",
+      "request": {
+        "method": "POST",
+        "header": [
+          { "key": "Content-Type", "value": "application/x-www-form-urlencoded" }
+        ],
+        "body": {
+          "mode": "urlencoded",
+          "urlencoded": [
+            { "key": "username", "value": "testuser" },
+            { "key": "password", "value": "password123" }
+          ]
+        },
+        "url": "{{baseUrl}}/auth/login"
+      }
+    },
+    {
+      "name": "4. Create Link (Guest)",
+      "request": {
+        "method": "POST",
+        "header": [
+          { "key": "Content-Type", "value": "application/json" }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"url\": \"https://github.com\"\n}"
+        },
+        "url": "{{baseUrl}}/links"
+      }
+    },
+    {
+      "name": "5. Create Link (Auth)",
+      "request": {
+        "method": "POST",
+        "header": [
+          { "key": "Content-Type", "value": "application/json" },
+          { "key": "Authorization", "value": "Bearer {{token}}" }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"url\": \"https://wikipedia.org\"\n}"
+        },
+        "url": "{{baseUrl}}/links"
+      }
+    },
+    {
+      "name": "6. Get My Links",
+      "request": {
+        "method": "GET",
+        "header": [
+          { "key": "Authorization", "value": "Bearer {{token}}" }
+        ],
+        "url": "{{baseUrl}}/links"
+      }
+    },
+    {
+      "name": "7. Redirect",
+      "request": {
+        "method": "GET",
+        "url": "{{baseUrl}}/SHORT_CODE_HERE"
+      }
+    },
+    {
+      "name": "8. Get QR Code",
+      "request": {
+        "method": "GET",
+        "url": "{{baseUrl}}/SHORT_CODE_HERE/qr"
+      }
+    },
+    {
+      "name": "9. Delete Link",
+      "request": {
+        "method": "DELETE",
+        "header": [
+          { "key": "Authorization", "value": "Bearer {{token}}" }
+        ],
+        "url": "{{baseUrl}}/links/SHORT_CODE_HERE"
+      }
+    }
+  ]
+}
