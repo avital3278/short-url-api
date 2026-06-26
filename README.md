@@ -12,6 +12,7 @@ Built with **FastAPI** and packaged with **Docker**, this project is designed wi
 * **🏆 Bonus: Real Database (SQLite):** Upgraded from in-memory storage to a persistent SQLite database using SQLAlchemy.
 * **🏆 Bonus: Idempotency:** Authenticated users shortening the exact same URL multiple times will receive their existing short code, optimizing database storage and ensuring consistent responses.
 * **🏆 Bonus: Rate Limiting:** Implemented API rate limiting to protect the server from spam and abuse.
+* **🛡️ Automated Testing:** Includes a robust test suite built with `pytest` and FastAPI's `TestClient` to verify core flows and ensure API reliability.
 * **DevOps & CI:** Fully containerized using Docker and `docker-compose`, with dependency management powered by `uv` for reproducible builds.
 
 ## 🏗️ Architecture & Design Decisions
@@ -40,11 +41,13 @@ The application is fully containerized. You don't need to install Python or any 
 4. **Access the Application:**
     * API Health Check: http://localhost:8000/health
     * Interactive API Documentation (Swagger): http://localhost:8000/docs
+    * Run Tests: `uv run pytest`
 
 ## 🛠️ Tech Stack
 * **Framework:** FastAPI
 * **Language:** Python 3.12
 * **Package Manager:** uv
 * **Database:** SQLite & SQLAlchemy ORM
+* **Testing:** Pytest
 * **Authentication:** JWT (python-jose) & bcrypt (passlib)
-* **Containerization:** Docker & Docker Compose
+* **Containerization:** Docker & Docker Composeg
