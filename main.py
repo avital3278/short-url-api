@@ -3,6 +3,7 @@ import secrets
 import io
 import qrcode
 from datetime import datetime
+from typing import Optional
 from sqlalchemy.orm import Session
 from database import get_db, engine
 import models
@@ -23,6 +24,7 @@ request_history: dict[str, list[datetime]] = {}
 
 class LinkIn(BaseModel):
     url: HttpUrl
+    custom_alias: Optional[str] = None  # Optional custom alias for the short link
 
 class LinkOut(BaseModel):
     short_code: str
@@ -49,15 +51,24 @@ def create_link(payload: LinkIn, db: Session = Depends(get_db), current_email: s
         raise HTTPException(status_code=429, detail="Too many requests. Please wait a minute.")
     request_history["guest"] = history + [now]
 
-    # Idempotency
-    if current_email:
+    # Idempotency (only if the user didn't request a custom alias)
+    if current_email and not payload.custom_alias:
         existing = db.query(models.Link).filter(models.Link.url == str(payload.url), models.Link.owner_email == current_email).first()
         if existing:
             return LinkOut(short_code=existing.short_code, short_url=f"http://127.0.0.1:8000/{existing.short_code}")
 
-    code = generate_short_code()
-    while db.query(models.Link).filter(models.Link.short_code == code).first():
+    # Custom Alias Logic & Generation
+    if payload.custom_alias:
+        # Check if the requested alias is already taken
+        existing_alias = db.query(models.Link).filter(models.Link.short_code == payload.custom_alias).first()
+        if existing_alias:
+            raise HTTPException(status_code=409, detail="Alias already taken")
+        code = payload.custom_alias
+    else:
+        # Generate a random code
         code = generate_short_code()
+        while db.query(models.Link).filter(models.Link.short_code == code).first():
+            code = generate_short_code()
     
     new_link = models.Link(short_code=code, url=str(payload.url), owner_email=current_email, clicks=0)
     db.add(new_link)
@@ -112,10 +123,10 @@ def get_my_links(db: Session = Depends(get_db), current_email: str = Depends(get
 @app.delete("/users/links/{code}")
 def delete_link(code: str, db: Session = Depends(get_db), current_email: str = Depends(get_current_user)):
     link = db.query(models.Link).filter(models.Link.short_code == code).first()
-    if not link:
+    
+    # Always return 404 to prevent resource enumeration (IDOR protection)
+    if not link or link.owner_email != current_email:
         raise HTTPException(status_code=404, detail="Link not found")
-    if link.owner_email != current_email:
-        raise HTTPException(status_code=403, detail="Not authorized")
     
     db.delete(link)
     db.commit()

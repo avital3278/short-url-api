@@ -20,3 +20,20 @@ def test_redirect_not_found():
     
     # Must return 404 Not Found
     assert response.status_code == 404
+
+def test_custom_alias_conflict():
+    # Create a link with a custom alias
+    response1 = client.post("/links", json={
+        "url": "https://www.github.com",
+        "custom_alias": "my-unique-alias"
+    })
+    assert response1.status_code == 201
+
+    # Attempt to create another link with the exact same alias
+    response2 = client.post("/links", json={
+        "url": "https://www.linkedin.com",
+        "custom_alias": "my-unique-alias"
+    })
+    
+    # Server must recognize the conflict and return 409
+    assert response2.status_code == 409
