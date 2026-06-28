@@ -1,5 +1,10 @@
 # 🔗 Short URL API with QR & Optional Auth
 
+[![CI](https://github.com/avital3278/short-url-api/actions/workflows/ci.yml/badge.svg?style=for-the-badge)](https://github.com/avital3278/short-url-api/actions/workflows/ci.yml)
+![GitHub top language](https://img.shields.io/github/languages/top/avital3278/short-url-api?style=for-the-badge)
+![GitHub last commit](https://img.shields.io/github/last-commit/avital3278/short-url-api?style=for-the-badge)
+![GitHub repo size](https://img.shields.io/github/repo-size/avital3278/short-url-api?style=for-the-badge)
+
 A robust, production-ready REST API for URL shortening, featuring QR code generation, stateless JWT authentication, and an optional-auth architecture. 
 
 Built with **FastAPI** and packaged with **Docker**, this project is designed with a focus on clean architecture, security, and developer experience.
