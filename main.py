@@ -86,7 +86,7 @@ def create_link(
         )
         if existing:
             return LinkOut(
-                short_code=existing.short_code,
+                short_code=str(existing.short_code),
                 short_url=f"http://127.0.0.1:8000/{existing.short_code}",
             )
 
@@ -124,7 +124,7 @@ def redirect_to_original(code: str, db: Session = Depends(get_db)):
 
     link_data.clicks += 1
     db.commit()
-    return RedirectResponse(url=link_data.url, status_code=307)
+    return RedirectResponse(url=str(link_data.url), status_code=307)
 
 
 @app.get("/{code}/qr")
@@ -155,7 +155,7 @@ def register(credentials: UserCredentials, db: Session = Depends(get_db)):
 @app.post("/auth/login")
 def login(credentials: UserCredentials, db: Session = Depends(get_db)):
     user = db.query(models.User).filter(models.User.email == credentials.email).first()
-    if not user or not verify_password(credentials.password, user.hashed_password):
+    if not user or not verify_password(credentials.password, str(user.hashed_password)):
         raise HTTPException(status_code=401, detail="Invalid credentials")
 
     token = create_access_token({"sub": credentials.email})
