@@ -7,7 +7,7 @@ from typing import Optional
 from sqlalchemy.orm import Session
 from database import get_db, engine
 import models
-from fastapi import Response, FastAPI, HTTPException, Depends, Request
+from fastapi import Response, FastAPI, HTTPException, Depends
 from fastapi.responses import RedirectResponse
 from pydantic import BaseModel, HttpUrl
 from auth import hash_password, verify_password, create_access_token, get_current_user, get_optional_user
