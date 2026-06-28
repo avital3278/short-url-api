@@ -1,0 +1,16 @@
+# Cache and virtual environments
+.cache/
+.local/
+.venv/
+.pytest_cache/
+.ruff_cache/
+__pycache__/
+
+# Database files
+*.db
+
+# Environment variables
+.env
+
+# Git files
+.git/
