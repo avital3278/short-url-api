@@ -1,6 +1,7 @@
 # 🔗 Short URL API with QR & Optional Auth
 
-[![CI](https://github.com/avital3278/short-url-api/actions/workflows/ci.yml/badge.svg?style=for-the-badge)](https://github.com/avital3278/short-url-api/actions/workflows/ci.yml)
+[![CI](https://img.shields.io/github/actions/workflow/status/avital3278/short-url-api/ci.yml?style=for-the-badge)](https://github.com/avital3278/short-url-api/actions/workflows/ci.yml)
+![Coverage](https://img.shields.io/badge/Coverage-100%25-brightgreen?style=for-the-badge)
 ![GitHub top language](https://img.shields.io/github/languages/top/avital3278/short-url-api?style=for-the-badge)
 ![GitHub last commit](https://img.shields.io/github/last-commit/avital3278/short-url-api?style=for-the-badge)
 ![GitHub repo size](https://img.shields.io/github/repo-size/avital3278/short-url-api?style=for-the-badge)
